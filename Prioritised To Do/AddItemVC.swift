@@ -96,10 +96,10 @@ class AddItemVC: UIViewController {
         if let toDoItem = toDoItem {
             //configure to do item
             toDoItem.name = toDoNameTxtField.text
-            toDoItem.value = "placeholder"
-            toDoItem.time = "placeholder"
-            toDoItem.consequences = "placeholder"
-            toDoItem.color = "placeholder"
+            toDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
+            toDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
+            toDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+            toDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
             
         }
         
@@ -109,13 +109,14 @@ class AddItemVC: UIViewController {
             
             //Configure To Do Item
             newToDoItem.name = toDoNameTxtField.text
-            newToDoItem.value = "placeholder"
-            newToDoItem.time = "placeholder"
-            newToDoItem.consequences = "placeholder"
-            newToDoItem.color = "placeholder"
+            newToDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
+            newToDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
+            newToDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+            newToDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+        
+            print("\(newToDoItem.value)")
         }
 
-        
         
         //Pop view controller
         _ = navigationController?.popViewController(animated: true)

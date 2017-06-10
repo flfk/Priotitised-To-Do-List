@@ -126,7 +126,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     }
     
     private func setupMessageLabel() {
-        introductoryLabel.text = "You don't have any goals yet."
+        introductoryLabel.text = "Currently no to do's."
     }
     
     private func setupView() {
