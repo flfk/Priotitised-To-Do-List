@@ -19,7 +19,6 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var itemLabel: UILabel!
     @IBOutlet weak var itemPriorityView: UIView!
-    @IBOutlet weak var starImage: UIImageView!
     
     
     //MARK: - Initialisation

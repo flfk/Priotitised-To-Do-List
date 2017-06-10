@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainVC.swift
 //  Prioritised To Do
 //
 //  Created by Felix Kramer on 9/6/17.
@@ -15,7 +15,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
 
     //MARK: - Properties
     
+    @IBOutlet weak var introductoryLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    
+    private let segueAddToDoItem = "AddToDoItemSegue"
+    private let segueEditToDoItem = "EditToDoItemSegue"
     
     //MARK: - Core Data Stack Properties
     
@@ -52,6 +56,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
                 print("Unable to load persistent store")
                 print("\(error), \(error.localizedDescription)")
             } else {
+                
+                self.setupView()
+                
             //if no errors perform fetch stack on core data stack
                 do {
                     try self.fetchedResultsController.performFetch()
@@ -60,15 +67,73 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
                     print("Unable to perform fetch request")
                     print("\(fetchError), \(fetchError.localizedDescription)")
                 }
+                
+                self.updateView()
+                
             }
         }
+        
+        //add View Controller as observer so when app enters background it saves changes
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
         
     }
     
     //MARK: - Actions
     
+    //MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationViewController = segue.destination as? AddItemVC else { return }
+        
+        //configure view controller
+        destinationViewController.managedObjectContext = persistentContainer.viewContext
+        
+        if let indexPath = tableView.indexPathForSelectedRow, segue.identifier == segueEditToDoItem {
+            //configure View Controller
+            destinationViewController.toDoItem = fetchedResultsController.object(at: indexPath)
+            //deslect the row so that it doesn't remain highlighted
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        
+    }
+    
+    //MARK: - Notification Handling
+    
+    func applicationDidEnterBackground(_ notification: Notification) {
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("Unable to Save Changes")
+            print("\(error), \(error.localizedDescription)")
+        }
+        
+        print("Managed Object Context saved to persitent container")
+    }
+    
     
     //MARK: - Helper Methods
+    
+    //UpdateView updates the user interface
+    fileprivate func updateView() {
+        var hasGoals = false
+        
+        if let goals = fetchedResultsController.fetchedObjects {
+            hasGoals = goals.count > 0
+        }
+        
+        tableView.isHidden = !hasGoals
+        introductoryLabel.isHidden = hasGoals
+    }
+    
+    private func setupMessageLabel() {
+        introductoryLabel.text = "You don't have any goals yet."
+    }
+    
+    private func setupView() {
+        setupMessageLabel()
+        
+        updateView()
+    }
     
     func configure(_ cell: ItemCell, at indexPath: IndexPath) {
         
@@ -79,11 +144,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         cell.itemLabel.text = toDoItem.name
         //XX ITEMCOLOR PLACEHOLDER
         cell.itemPriorityView.backgroundColor = UIColor.green
-        cell.starImage.isHidden = !toDoItem.priority
         
     }
     
-    //MARK: - Table View Protocl Functions
+    //MARK: - Table View DataSource Protocol Functions
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let toDoItems = fetchedResultsController.fetchedObjects else { return 0 }
@@ -101,6 +165,58 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            //Fetch To Do Item
+            let toDoItem = fetchedResultsController.object(at: indexPath)
+            
+            //delete To Do Item
+            toDoItem.managedObjectContext?.delete(toDoItem)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
 
+    
+    //MARK: - NS Fetched Results Controller Delegate Functions
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+        
+        updateView()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch (type) {
+        case .insert:
+            if let indexPath = newIndexPath {
+                tableView.insertRows(at: [indexPath], with: .fade)
+            }
+            break;
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        case.update:
+            if let indexPath = indexPath, let cell = tableView.cellForRow(at: indexPath) as? ItemCell {
+                configure(cell, at: indexPath)
+            }
+        case.move:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .fade)
+            }
+        }
+    }
+    
 }
 
