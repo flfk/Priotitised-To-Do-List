@@ -20,6 +20,11 @@ class AddItemVC: UIViewController {
     
     var toDoItem: ToDoItem?
     
+    //create variables to store the index values of segmented controls
+    var valueIndex: Int?
+    var timeIndex: Int?
+    var consequencesIndex: Int?
+    
     //Mark: - 
     
     var managedObjectContext: NSManagedObjectContext?
@@ -28,6 +33,14 @@ class AddItemVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //set default value of index to the average
+        valueIndex = 1
+        timeIndex = 1
+        consequencesIndex = 1
+        
+        //update the segment views
+        updateSgmntCntrls()
     
         //change fontsize of segmented controllers
         let font = UIFont.systemFont(ofSize: 17)
@@ -38,7 +51,7 @@ class AddItemVC: UIViewController {
         //prepopulate fields for existing to do items
         if let toDoItem = toDoItem {
             toDoNameTxtField.text = toDoItem.name
-            print("Item loaded")
+
             //PLACEHOLDER for segments
             
         }
@@ -47,7 +60,35 @@ class AddItemVC: UIViewController {
         
     }
     
+    //MARK: - Helper Methods
+    
+    //create a function to update the selector views based on the index values
+    
+    func updateSgmntCntrls() {
+        valueSgmntCntrl.selectedSegmentIndex = valueIndex!
+        timeSgmntCntrl.selectedSegmentIndex = timeIndex!
+        consequencesSgmntCntrl.selectedSegmentIndex = consequencesIndex!
+        
+    }
+    
     //MARK: - Actions
+    
+    @IBAction func valueSgmntCntrlAction(_ sender: Any) {
+        
+        switch valueSgmntCntrl.selectedSegmentIndex {
+        case 0:
+            print("Low")
+        case 1:
+            print("Moderate")
+        case 2:
+            print("High")
+        default:
+            break
+        }
+    }
+    
+    
+    
     
     @IBAction func saveButton(_ sender: Any) {
         guard let managedObjectContext = managedObjectContext else { return }

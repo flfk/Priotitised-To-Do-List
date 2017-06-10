@@ -145,6 +145,9 @@
                                     <segment title="Moderate"/>
                                     <segment title="High"/>
                                 </segments>
+                                <connections>
+                                    <action selector="valueSgmntCntrlAction:" destination="faR-1F-NVS" eventType="valueChanged" id="6DD-80-YuZ"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How much fast can it be done?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZJ-GX-qlD">
                                 <rect key="frame" x="36" y="258" width="248" height="24"/>
