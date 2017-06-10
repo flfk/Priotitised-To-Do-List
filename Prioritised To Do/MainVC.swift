@@ -30,7 +30,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         let fetchRequest: NSFetchRequest<ToDoItem> = ToDoItem.fetchRequest()
         
         //configure fetch request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "color", ascending: false)]
         
         //create fetched results controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -143,7 +143,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         //configure item
         cell.itemLabel.text = toDoItem.name
         //XX ITEMCOLOR PLACEHOLDER
-        cell.itemPriorityView.backgroundColor = UIColor.green
+        let image = "\(toDoItem.color)"
+        cell.colorImage.image = UIImage(named: image)
         
     }
     

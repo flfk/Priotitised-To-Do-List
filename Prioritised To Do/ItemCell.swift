@@ -18,7 +18,7 @@ class ItemCell: UITableViewCell {
     //MARK: - Properties
     
     @IBOutlet weak var itemLabel: UILabel!
-    @IBOutlet weak var itemPriorityView: UIView!
+    @IBOutlet weak var colorImage: UIImageView!
     
     
     //MARK: - Initialisation
