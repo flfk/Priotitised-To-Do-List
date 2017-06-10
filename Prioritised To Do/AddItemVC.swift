@@ -51,8 +51,9 @@ class AddItemVC: UIViewController {
         //prepopulate fields for existing to do items
         if let toDoItem = toDoItem {
             toDoNameTxtField.text = toDoItem.name
-
-            //PLACEHOLDER for segments
+            valueSgmntCntrl.selectedSegmentIndex = Int(toDoItem.value)
+            timeSgmntCntrl.selectedSegmentIndex = Int(toDoItem.time)
+            consequencesSgmntCntrl.selectedSegmentIndex = Int(toDoItem.consequences)
             
         }
         
