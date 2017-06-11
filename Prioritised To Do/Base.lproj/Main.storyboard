@@ -10,10 +10,77 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--MainVC-->
+        <!--ProjectsVC-->
+        <scene sceneID="98J-t8-WIg">
+            <objects>
+                <viewController id="6ES-33-F2C" userLabel="ProjectsVC" customClass="ProjectsVC" customModule="Prioritised_To_Do" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZNl-cY-PzW"/>
+                        <viewControllerLayoutGuide type="bottom" id="MvD-kE-cKA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BCq-vU-dgR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="104" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="35h-ad-O9e">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="104" id="YFD-QU-g55" customClass="ProjectsCell" customModule="Prioritised_To_Do" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="104"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YFD-QU-g55" id="Ibb-6U-mH5">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTi-Go-X92">
+                                                    <rect key="frame" x="16" y="41" width="288" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="mlQ-uZ-ldA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                                    <color key="textColor" red="0.27066838739999999" green="0.60472244019999999" blue="0.64873296020000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="FTi-Go-X92" secondAttribute="trailing" constant="8" id="Kiw-8U-fEP"/>
+                                                <constraint firstItem="FTi-Go-X92" firstAttribute="leading" secondItem="Ibb-6U-mH5" secondAttribute="leadingMargin" constant="8" id="iZj-t1-Sh9"/>
+                                                <constraint firstItem="FTi-Go-X92" firstAttribute="centerX" secondItem="Ibb-6U-mH5" secondAttribute="centerX" id="soI-SZ-UW8"/>
+                                                <constraint firstItem="FTi-Go-X92" firstAttribute="centerY" secondItem="Ibb-6U-mH5" secondAttribute="centerY" id="yVh-fD-SPI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="projectNameLabel" destination="FTi-Go-X92" id="JWh-qV-hCk"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" id="dBa-Ma-WMM"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MvD-kE-cKA" firstAttribute="top" secondItem="35h-ad-O9e" secondAttribute="bottom" id="38v-J4-v1P"/>
+                            <constraint firstAttribute="trailing" secondItem="35h-ad-O9e" secondAttribute="trailing" id="JPi-m2-xNq"/>
+                            <constraint firstItem="35h-ad-O9e" firstAttribute="leading" secondItem="BCq-vU-dgR" secondAttribute="leading" id="Ojy-ft-cWW"/>
+                            <constraint firstItem="35h-ad-O9e" firstAttribute="top" secondItem="BCq-vU-dgR" secondAttribute="top" id="Wuc-UM-oeu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Projects" id="1MM-Sr-RpM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SWN-qX-gfQ"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="35h-ad-O9e" id="zhq-TD-EEe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VIw-Uu-J6P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322.5" y="169.01408450704224"/>
+        </scene>
+        <!--TasksVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="MainVC" customClass="MainVC" customModule="Prioritised_To_Do" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="TasksVC" customClass="MainVC" customModule="Prioritised_To_Do" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -88,7 +155,7 @@
                             <constraint firstItem="vlD-Vc-dk0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qiI-O8-2bO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="wFt-l9-I92">
+                    <navigationItem key="navigationItem" title="Tasks" id="wFt-l9-I92">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="phi-1L-3gE">
                             <connections>
                                 <segue destination="faR-1F-NVS" kind="show" identifier="AddToDoItemSegue" id="aUf-8b-FwF"/>
@@ -102,7 +169,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1113.75" y="122.53521126760563"/>
+            <point key="canvasLocation" x="1114" y="171"/>
         </scene>
         <!--Add ItemVC-->
         <scene sceneID="GE3-rb-Gwc">
@@ -237,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IA4-bh-GYi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1848.75" y="122.53521126760563"/>
+            <point key="canvasLocation" x="1928" y="170"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CCt-3I-0f6">
@@ -250,12 +317,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="JST-Vw-k8q"/>
+                        <segue destination="6ES-33-F2C" kind="relationship" relationship="rootViewController" id="Mic-wh-EGh"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aCM-nQ-KCt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240" y="123"/>
+            <point key="canvasLocation" x="-469" y="170"/>
         </scene>
     </scenes>
     <resources>

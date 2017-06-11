@@ -142,7 +142,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         //configure item
         cell.itemLabel.text = toDoItem.name
-        //XX ITEMCOLOR PLACEHOLDER
         let image = "\(toDoItem.color)"
         cell.colorImage.image = UIImage(named: image)
         
