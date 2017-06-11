@@ -11,6 +11,7 @@ import UIKit
 class ProjectsVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var newProjectTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,4 +22,8 @@ class ProjectsVC: UIViewController {
     
     // MARK: - Navigation
 
+    //MARK: - Action
+    
+    @IBAction func saveNewProjectButton(_ sender: Any) {
+    }
 }
