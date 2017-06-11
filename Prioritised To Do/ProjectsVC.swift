@@ -37,6 +37,8 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return fetchedResultsController
     }()
     
+    var managedObjectContext: NSManagedObjectContext?
+    
     //MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -126,6 +128,17 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //MARK: - Action
     
     @IBAction func saveNewProjectButton(_ sender: Any) {
+
+        //create new project
+        let newProject = Project(context: persistentContainer.viewContext)
+        
+        //configure new project
+        newProject.name = newProjectTextField.text
+        print("new project created: \(newProject.name!)")
+        
+        //clear textfield
+        newProjectTextField.text = ""
+        
     }
     
     //MARK: - Table View DataSource Protocol Functions
