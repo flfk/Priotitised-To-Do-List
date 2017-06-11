@@ -16,7 +16,7 @@
 		44C6B5E71EEB1617006448C9 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6B5E61EEB1617006448C9 /* ItemCell.swift */; };
 		44C6B5E91EEB266C006448C9 /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6B5E81EEB266C006448C9 /* AddItemVC.swift */; };
 		44C6B5EB1EECBDB4006448C9 /* ProjectsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6B5EA1EECBDB4006448C9 /* ProjectsVC.swift */; };
-		44C6B5ED1EECBDCB006448C9 /* ProjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6B5EC1EECBDCB006448C9 /* ProjectsCell.swift */; };
+		44C6B5ED1EECBDCB006448C9 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C6B5EC1EECBDCB006448C9 /* ProjectCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		44C6B5E61EEB1617006448C9 /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		44C6B5E81EEB266C006448C9 /* AddItemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		44C6B5EA1EECBDB4006448C9 /* ProjectsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsVC.swift; sourceTree = "<group>"; };
-		44C6B5EC1EECBDCB006448C9 /* ProjectsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsCell.swift; sourceTree = "<group>"; };
+		44C6B5EC1EECBDCB006448C9 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +79,9 @@
 		44C6B5E01EEB11BA006448C9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44C6B5EA1EECBDB4006448C9 /* ProjectsVC.swift */,
 				44C6B5D01EEB10BF006448C9 /* MainVC.swift */,
 				44C6B5E81EEB266C006448C9 /* AddItemVC.swift */,
-				44C6B5EA1EECBDB4006448C9 /* ProjectsVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -98,7 +98,7 @@
 			children = (
 				44C6B5E31EEB11F4006448C9 /* ToDoItems.xcdatamodeld */,
 				44C6B5E61EEB1617006448C9 /* ItemCell.swift */,
-				44C6B5EC1EECBDCB006448C9 /* ProjectsCell.swift */,
+				44C6B5EC1EECBDCB006448C9 /* ProjectCell.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 				44C6B5E91EEB266C006448C9 /* AddItemVC.swift in Sources */,
 				44C6B5E71EEB1617006448C9 /* ItemCell.swift in Sources */,
 				44C6B5E51EEB11F4006448C9 /* ToDoItems.xcdatamodeld in Sources */,
-				44C6B5ED1EECBDCB006448C9 /* ProjectsCell.swift in Sources */,
+				44C6B5ED1EECBDCB006448C9 /* ProjectCell.swift in Sources */,
 				44C6B5D11EEB10BF006448C9 /* MainVC.swift in Sources */,
 				44C6B5CF1EEB10BF006448C9 /* AppDelegate.swift in Sources */,
 			);

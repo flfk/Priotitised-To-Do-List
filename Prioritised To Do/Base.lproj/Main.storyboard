@@ -92,20 +92,34 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvy-n7-W77" userLabel="Introductory Label">
+                                <rect key="frame" x="16" y="274" width="288" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="c75-Ao-7d9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jvy-n7-W77" firstAttribute="centerY" secondItem="BCq-vU-dgR" secondAttribute="centerY" id="6og-fj-FQz"/>
+                            <constraint firstItem="jvy-n7-W77" firstAttribute="centerX" secondItem="BCq-vU-dgR" secondAttribute="centerX" id="CYz-Wk-cyU"/>
                             <constraint firstItem="35h-ad-O9e" firstAttribute="top" secondItem="eAP-ds-gdk" secondAttribute="bottom" id="IB5-mc-vMD"/>
                             <constraint firstAttribute="trailing" secondItem="35h-ad-O9e" secondAttribute="trailing" id="JPi-m2-xNq"/>
                             <constraint firstItem="35h-ad-O9e" firstAttribute="leading" secondItem="BCq-vU-dgR" secondAttribute="leading" id="Ojy-ft-cWW"/>
                             <constraint firstAttribute="bottom" secondItem="35h-ad-O9e" secondAttribute="bottom" id="Pw3-0Q-D5P"/>
+                            <constraint firstItem="jvy-n7-W77" firstAttribute="leading" secondItem="BCq-vU-dgR" secondAttribute="leadingMargin" id="SB1-IK-ey8"/>
                             <constraint firstItem="eAP-ds-gdk" firstAttribute="top" secondItem="ZNl-cY-PzW" secondAttribute="bottom" id="YZR-8S-VFi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jvy-n7-W77" secondAttribute="trailing" id="c1I-2e-w9X"/>
                             <constraint firstItem="eAP-ds-gdk" firstAttribute="leading" secondItem="BCq-vU-dgR" secondAttribute="leading" id="pCu-y2-L0B"/>
                             <constraint firstAttribute="trailing" secondItem="eAP-ds-gdk" secondAttribute="trailing" id="rB8-kM-s6H"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Projects" id="1MM-Sr-RpM"/>
                     <connections>
+                        <outlet property="introductoryLabel" destination="jvy-n7-W77" id="3K5-CE-Z6Y"/>
                         <outlet property="newProjectTextField" destination="3lq-Fy-KzT" id="ngJ-ec-Twl"/>
                         <outlet property="tableView" destination="35h-ad-O9e" id="zhq-TD-EEe"/>
                     </connections>
