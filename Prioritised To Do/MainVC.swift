@@ -23,7 +23,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     //MARK: - Core Data Stack Properties
     
-    private let persistentContainer = NSPersistentContainer(name: "ToDoItems")
+    var project: Project?
+    
+    //private let persistentContainer = NSPersistentContainer(name: "ToDoItems")
     
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<ToDoItem> = {
         //create fetch request
@@ -32,46 +34,37 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         //configure fetch request
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "color", ascending: false)]
         
+        //predicate fetch request for project
+        fetchRequest.predicate = NSPredicate(format: "project.name == %@", self.project!.name!)
+        
+        
+        
         //create fetched results controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: adManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
         //configure fetched results controller
         fetchedResultsController.delegate = self
         
         return fetchedResultsController
     }()
+
     
     //MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //set title of view controller
+        title = project?.name
+        
+        //fetch data
+        attemptFetch()
+        
+        self.setupView()
+        
         //set delegate and datasource of tableView to self
         tableView.delegate = self
         tableView.dataSource = self
-        
-        //add persistent store to persistent store coordinator
-        persistentContainer.loadPersistentStores {(NSPersistentStoreDescription, error) in
-            if let error = error {
-                print("Unable to load persistent store")
-                print("\(error), \(error.localizedDescription)")
-            } else {
-                
-                self.setupView()
-                
-            //if no errors perform fetch stack on core data stack
-                do {
-                    try self.fetchedResultsController.performFetch()
-                } catch {
-                    let fetchError = error as NSError
-                    print("Unable to perform fetch request")
-                    print("\(fetchError), \(fetchError.localizedDescription)")
-                }
-                
-                self.updateView()
-                
-            }
-        }
         
         //add View Controller as observer so when app enters background it saves changes
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
@@ -86,11 +79,15 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         guard let destinationViewController = segue.destination as? AddItemVC else { return }
         
         //configure view controller
-        destinationViewController.managedObjectContext = persistentContainer.viewContext
+        //destinationViewController.managedObjectContext = managedObjectContextProjectsVC
+        destinationViewController.project = project
         
         if let indexPath = tableView.indexPathForSelectedRow, segue.identifier == segueEditToDoItem {
             //configure View Controller
-            destinationViewController.toDoItem = fetchedResultsController.object(at: indexPath)
+            destinationViewController.toDoItem = fetchedResultsController.object(at: indexPath as IndexPath)
+            print("printing toDoItem to be sent: \(fetchedResultsController.object(at: indexPath as IndexPath))")
+            //destinationViewController.toDoItem = project?.toDoItems?.mutableSetValue(forKey: "names")
+            //fetchedResultsController.object(at: indexPath)
             //deslect the row so that it doesn't remain highlighted
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -101,7 +98,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     func applicationDidEnterBackground(_ notification: Notification) {
         do {
-            try persistentContainer.viewContext.save()
+            try adManagedObjectContext.save()
         } catch {
             print("Unable to Save Changes")
             print("\(error), \(error.localizedDescription)")
@@ -115,14 +112,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     //UpdateView updates the user interface
     fileprivate func updateView() {
-        var hasGoals = false
+        var hasToDoItems = false
         
-        if let goals = fetchedResultsController.fetchedObjects {
-            hasGoals = goals.count > 0
+        if let toDoItems = project?.toDoItems {
+            hasToDoItems = toDoItems.count > 0
         }
         
-        tableView.isHidden = !hasGoals
-        introductoryLabel.isHidden = hasGoals
+        tableView.isHidden = !hasToDoItems
+        introductoryLabel.isHidden = hasToDoItems
     }
     
     private func setupMessageLabel() {
@@ -138,19 +135,41 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func configure(_ cell: ItemCell, at indexPath: IndexPath) {
         
         //fetch item
-        let toDoItem = fetchedResultsController.object(at: indexPath)
+        //let toDoItem = fetchedResultsController.object(at: indexPath)
+//        guard let toDoItems = project?.toDoItems?.allObjects else { return }
+//        let toDoItem = toDoItems[indexPath.row]
+//        print("toDoItems: \(toDoItems)")
+//        print("toDoItem: \(toDoItem)")
+        
+       let toDoItem = fetchedResultsController.object(at: indexPath as IndexPath)
+  
         
         //configure item
         cell.itemLabel.text = toDoItem.name
         let image = "\(toDoItem.color)"
         cell.colorImage.image = UIImage(named: image)
+
         
+    }
+    
+    func attemptFetch() {
+        //self.fetchedResultsController = fetchedResultsController
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            let error = error as NSError
+            print("\(error)")
+        }
+        
+        updateView()
     }
     
     //MARK: - Table View DataSource Protocol Functions
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let toDoItems = fetchedResultsController.fetchedObjects else { return 0 }
+        //guard let toDoItems = fetchedResultsController.fetchedObjects else { return 0 }
+        guard let toDoItems = project?.toDoItems else { return 0 }
         
         return toDoItems.count
     
@@ -169,10 +188,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             //Fetch To Do Item
-            let toDoItem = fetchedResultsController.object(at: indexPath)
+            //let toDoItem = fetchedResultsController.object(at: indexPath)
+            //let toDoItem = project.
+            //let toDoItemKey = tableView.indexPathForSelectedRow
             
             //delete To Do Item
-            toDoItem.managedObjectContext?.delete(toDoItem)
+            //toDoItem.managedObjectContext?.delete(toDoItem)
         }
     }
     

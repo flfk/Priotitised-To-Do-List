@@ -17,22 +17,28 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var newProjectTextField: UITextField!
     
+    private let segueProjectToDoItems = "ProjectToDoItemsSegue"
+    
     //MARK: - Core Data Stack Properties
     
-    private let persistentContainer = NSPersistentContainer(name: "ToDoItems")
     
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
+        
         //create fetch request
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
+        print("\(fetchRequest)")
         
         //configure fetch request
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        print("fetchrequest configuration \(fetchRequest)")
         
         //create fetched results controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: adManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        print("fetchResultsController \(fetchedResultsController)")
         
         //configure fetched results controller
         fetchedResultsController.delegate = self
+        
         
         return fetchedResultsController
     }()
@@ -43,33 +49,15 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //perform data fetch
+        attemptFetch()
+        
+        setupView()
 
         //set delegate and datasource of tableView to self
         tableView.delegate = self
         tableView.dataSource = self
-        
-        //add persistent store to persistent store coordinator
-        persistentContainer.loadPersistentStores {(NSPersistentStoreDescription, error) in
-            if let error = error {
-                print("Unable to load persistent store")
-                print("\(error), \(error.localizedDescription)")
-            } else {
-                
-                self.setupView()
-                
-                //if no errors perform fetch stack on core data stack
-                do {
-                    try self.fetchedResultsController.performFetch()
-                } catch {
-                    let fetchError = error as NSError
-                    print("Unable to perform fetch request")
-                    print("\(fetchError), \(fetchError.localizedDescription)")
-                }
-                
-                self.updateView()
-                
-            }
-        }
         
         //add View Controller as observer so when app enters background it saves changes
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
@@ -80,7 +68,7 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func applicationDidEnterBackground(_ notification: Notification) {
         do {
-            try persistentContainer.viewContext.save()
+            try adManagedObjectContext.save()
         } catch {
             print("Unable to Save Changes")
             print("\(error), \(error.localizedDescription)")
@@ -90,6 +78,22 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationViewController = segue.destination as? MainVC else { return }
+        
+        //configure view controller
+        //destinationViewController.managedObjectContextProjectsVC = persistentContainer.viewContext
+        
+        if let indexPath = tableView.indexPathForSelectedRow, segue.identifier == segueProjectToDoItems {
+            //configure View Controller
+            destinationViewController.project = fetchedResultsController.object(at: indexPath)
+            //deslect the row so that it doesn't remain highlighted
+            tableView.deselectRow(at: indexPath, animated: true)
+            print("\(fetchedResultsController.object(at: indexPath))")
+        }
+        
+    }
     
     //MARK: - Helper Methods
     
@@ -103,6 +107,8 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         tableView.isHidden = !hasGoals
         introductoryLabel.isHidden = hasGoals
+        
+        print("updatedview")
     }
     
     private func setupMessageLabel() {
@@ -123,6 +129,19 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         //configure project
         cell.projectNameLabel.text = project.name
     }
+    
+    func attemptFetch() {
+        //self.fetchedResultsController = fetchedResultsController
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            let error = error as NSError
+            print("\(error)")
+        }
+        
+        print("attemptFetch called")
+    }
 
 
     //MARK: - Action
@@ -130,14 +149,15 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBAction func saveNewProjectButton(_ sender: Any) {
 
         //create new project
-        let newProject = Project(context: persistentContainer.viewContext)
+        let newProject = Project(context: adManagedObjectContext)
         
         //configure new project
         newProject.name = newProjectTextField.text
         print("new project created: \(newProject.name!)")
-        
         //clear textfield
         newProjectTextField.text = ""
+        
+        updateView()
         
     }
     
@@ -174,6 +194,7 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         tableView.endUpdates()
         
         updateView()
+        print("controllerdidchangecontent update view")
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Project" representedClassName="Project" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="toToDoItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ToDoItem" inverseName="toProject" inverseEntity="ToDoItem" syncable="YES"/>
+        <relationship name="toDoItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ToDoItem" inverseName="project" inverseEntity="ToDoItem" syncable="YES"/>
     </entity>
     <entity name="ToDoItem" representedClassName="ToDoItem" syncable="YES" codeGenerationType="class">
         <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -10,10 +10,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="toProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="toToDoItem" inverseEntity="Project" syncable="YES"/>
+        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="toDoItems" inverseEntity="Project" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ToDoItem" positionX="178" positionY="-27" width="128" height="135"/>
-        <element name="Project" positionX="-54" positionY="27" width="128" height="75"/>
+        <element name="ToDoItem" positionX="178" positionY="-27" width="128" height="133"/>
+        <element name="Project" positionX="-54" positionY="27" width="128" height="73"/>
     </elements>
 </model>

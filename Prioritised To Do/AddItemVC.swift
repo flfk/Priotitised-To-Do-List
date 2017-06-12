@@ -19,20 +19,22 @@ class AddItemVC: UIViewController {
     @IBOutlet weak var consequencesSgmntCntrl: UISegmentedControl!
     
     var toDoItem: ToDoItem?
+    var project: Project?
     
     //create variables to store the index values of segmented controls
     var valueIndex: Int?
     var timeIndex: Int?
     var consequencesIndex: Int?
     
-    //Mark: - 
-    
-    var managedObjectContext: NSManagedObjectContext?
-    
     //MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //test project sent through
+        print("toDoItem: \(toDoItem?.name)")
+        print("toDoItem relationship: \(toDoItem?.project?.name)")
+        print("project passed to addItemVC: \(project?.name)")
         
         //set default value of index to the average
         valueIndex = 1
@@ -48,13 +50,17 @@ class AddItemVC: UIViewController {
         timeSgmntCntrl.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
         consequencesSgmntCntrl.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
     
-        //prepopulate fields for existing to do items
+        //prepopulate fields and title for existing to do items
         if let toDoItem = toDoItem {
             toDoNameTxtField.text = toDoItem.name
             valueSgmntCntrl.selectedSegmentIndex = Int(toDoItem.value)
             timeSgmntCntrl.selectedSegmentIndex = Int(toDoItem.time)
             consequencesSgmntCntrl.selectedSegmentIndex = Int(toDoItem.consequences)
             
+            title = "Edit Task"
+            
+        } else {
+            title = "New Task"
         }
         
         
@@ -92,7 +98,7 @@ class AddItemVC: UIViewController {
     
     
     @IBAction func saveButton(_ sender: Any) {
-        guard let managedObjectContext = managedObjectContext else { return }
+        //guard let adManagedObjectContext = adManagedObjectContext else { return }
         
         if let toDoItem = toDoItem {
             //configure to do item
@@ -106,7 +112,7 @@ class AddItemVC: UIViewController {
         
         if toDoItem == nil {
             //Create To Do Item
-            let newToDoItem = ToDoItem(context: managedObjectContext)
+            let newToDoItem = ToDoItem(context: adManagedObjectContext)
             
             //Configure To Do Item
             newToDoItem.name = toDoNameTxtField.text
@@ -114,7 +120,14 @@ class AddItemVC: UIViewController {
             newToDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
             newToDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
             newToDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
-
+            
+            //project.name = "testing project name"
+            
+            //set relationship
+            newToDoItem.project = project
+            print("newToDoItem project \(newToDoItem.project)")
+            //project?.addToToDoItems(newToDoItem)
+            //print("project.addtoToDoItems.count: \(project?.toDoItems?.count)")
         }
 
         

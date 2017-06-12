@@ -87,7 +87,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="projectNameLabel" destination="FTi-Go-X92" id="JWh-qV-hCk"/>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="dBa-Ma-WMM"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" identifier="ProjectToDoItemsSegue" id="dBa-Ma-WMM"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
