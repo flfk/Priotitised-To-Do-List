@@ -142,22 +142,38 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         print("attemptFetch called")
     }
+    
+    func emptyTextfieldAlert (title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in alert.dismiss(animated: true, completion: nil)} ))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 
 
     //MARK: - Action
     
     @IBAction func saveNewProjectButton(_ sender: Any) {
 
-        //create new project
-        let newProject = Project(context: adManagedObjectContext)
+        //test to see if textfield is empty
+        if newProjectTextField.text != "" {
+            //create new project
+            let newProject = Project(context: adManagedObjectContext)
+            
+            //configure new project
+            newProject.name = newProjectTextField.text
+            print("new project created: \(newProject.name!)")
+            //clear textfield
+            newProjectTextField.text = ""
+            
+            updateView()
+            
+        } else {
+            emptyTextfieldAlert(title: "Please enter a project name", message: "")
+        }
         
-        //configure new project
-        newProject.name = newProjectTextField.text
-        print("new project created: \(newProject.name!)")
-        //clear textfield
-        newProjectTextField.text = ""
-        
-        updateView()
         
     }
     

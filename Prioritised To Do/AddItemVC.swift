@@ -31,11 +31,6 @@ class AddItemVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //test project sent through
-        print("toDoItem: \(toDoItem?.name)")
-        print("toDoItem relationship: \(toDoItem?.project?.name)")
-        print("project passed to addItemVC: \(project?.name)")
-        
         //set default value of index to the average
         valueIndex = 1
         timeIndex = 1
@@ -78,6 +73,15 @@ class AddItemVC: UIViewController {
         
     }
     
+    func emptyTextfieldAlert (title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in alert.dismiss(animated: true, completion: nil)} ))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: - Actions
     
     @IBAction func valueSgmntCntrlAction(_ sender: Any) {
@@ -98,41 +102,44 @@ class AddItemVC: UIViewController {
     
     
     @IBAction func saveButton(_ sender: Any) {
-        //guard let adManagedObjectContext = adManagedObjectContext else { return }
         
-        if let toDoItem = toDoItem {
-            //configure to do item
-            toDoItem.name = toDoNameTxtField.text
-            toDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
-            toDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
-            toDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
-            toDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+        //test if textfield is empty
+        if toDoNameTxtField.text != "" {
+            if let toDoItem = toDoItem {
+                //configure to do item
+                toDoItem.name = toDoNameTxtField.text
+                toDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
+                toDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
+                toDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+                toDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+                
+            }
             
-        }
-        
-        if toDoItem == nil {
-            //Create To Do Item
-            let newToDoItem = ToDoItem(context: adManagedObjectContext)
-            
-            //Configure To Do Item
-            newToDoItem.name = toDoNameTxtField.text
-            newToDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
-            newToDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
-            newToDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
-            newToDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
-            
-            //project.name = "testing project name"
-            
-            //set relationship
-            newToDoItem.project = project
-            print("newToDoItem project \(newToDoItem.project)")
-            //project?.addToToDoItems(newToDoItem)
-            //print("project.addtoToDoItems.count: \(project?.toDoItems?.count)")
-        }
+            if toDoItem == nil {
+                
+                //Create To Do Item
+                let newToDoItem = ToDoItem(context: adManagedObjectContext)
+                
+                //Configure To Do Item
+                newToDoItem.name = toDoNameTxtField.text
+                newToDoItem.value = Int16(valueSgmntCntrl.selectedSegmentIndex)
+                newToDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
+                newToDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+                newToDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+                
+                //set relationship
+                newToDoItem.project = project
 
+            }
+            
+            
+            //Pop view controller
+            _ = navigationController?.popViewController(animated: true)
         
-        //Pop view controller
-        _ = navigationController?.popViewController(animated: true)
+        } else {
+            emptyTextfieldAlert(title: "Please enter task name", message: "")
+        }
+        
         
     }
     
