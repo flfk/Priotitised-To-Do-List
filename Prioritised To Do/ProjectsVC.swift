@@ -19,8 +19,6 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     private let segueProjectToDoItems = "ProjectToDoItemsSegue"
     
-    private var deleteConfirmation: Bool?
-    
     //MARK: - Core Data Stack Properties
     
     
@@ -154,16 +152,19 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.present(alert, animated: true, completion: nil)
     }
 
-    func deleteProjectAlert (title: String, message: String) {
+    func deleteProjectAlert (title: String, message: String, indexPath: IndexPath) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { action in alert.dismiss(animated: true, completion: nil)
-            self.deleteConfirmation = true
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in alert.dismiss(animated: true, completion: nil)
+            //Fetch To Do Item
+            let project = self.fetchedResultsController.object(at: indexPath)
+            
+            //delete To Do Item
+            project.managedObjectContext?.delete(project)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in alert.dismiss(animated: true, completion: nil)
-            self.deleteConfirmation = false
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -187,7 +188,7 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             updateView()
             
         } else {
-            emptyTextfieldAlert(title: "Please enter a project name", message: "")
+            emptyTextfieldAlert(title: "", message: "Please enter a project name")
         }
         
         
@@ -215,20 +216,9 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            //send alert for confirmation
-            deleteProjectAlert(title: "", message: "Are you sure you want to delete this project?")
+            //send alert for confirmation - note delete method included in alert method
+            deleteProjectAlert(title: "", message: "Are you sure you want to delete this project?", indexPath: indexPath)
             
-            if deleteConfirmation == true {
-            
-                //Fetch To Do Item
-                let project = fetchedResultsController.object(at: indexPath)
-                
-                //delete To Do Item
-                project.managedObjectContext?.delete(project)
-        
-            } else {
-                
-            }
         }
     }
         

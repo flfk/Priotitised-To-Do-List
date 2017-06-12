@@ -138,7 +138,7 @@ class AddItemVC: UIViewController {
             _ = navigationController?.popViewController(animated: true)
         
         } else {
-            emptyTextfieldAlert(title: "Please enter task name", message: "")
+            emptyTextfieldAlert(title: "", message: "Please enter task name")
         }
         
         
