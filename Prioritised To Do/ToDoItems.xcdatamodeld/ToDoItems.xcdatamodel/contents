@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Project" representedClassName="Project" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="toDoItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ToDoItem" inverseName="project" inverseEntity="ToDoItem" syncable="YES"/>
         <uniquenessConstraints>
@@ -12,6 +13,7 @@
     <entity name="ToDoItem" representedClassName="ToDoItem" syncable="YES" codeGenerationType="class">
         <attribute name="color" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="consequences" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -23,7 +25,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="ToDoItem" positionX="178" positionY="-27" width="128" height="133"/>
-        <element name="Project" positionX="-54" positionY="27" width="128" height="73"/>
+        <element name="ToDoItem" positionX="178" positionY="-27" width="128" height="148"/>
+        <element name="Project" positionX="-54" positionY="27" width="128" height="88"/>
     </elements>
 </model>

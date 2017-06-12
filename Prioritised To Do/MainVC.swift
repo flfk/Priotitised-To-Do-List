@@ -35,7 +35,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "color", ascending: false)]
         
         //predicate fetch request for project
-        fetchRequest.predicate = NSPredicate(format: "project.name == %@", self.project!.name!)
+        fetchRequest.predicate = NSPredicate(format: "project.createdAt == %@", self.project!.createdAt!)
         
         //create fetched results controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: adManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)

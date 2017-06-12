@@ -164,7 +164,7 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             //configure new project
             newProject.name = newProjectTextField.text
-            print("new project created: \(newProject.name!)")
+            newProject.createdAt = "\(Date())"
             //clear textfield
             newProjectTextField.text = ""
             

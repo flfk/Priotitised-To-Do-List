@@ -126,6 +126,7 @@ class AddItemVC: UIViewController {
                 newToDoItem.time = Int16(timeSgmntCntrl.selectedSegmentIndex)
                 newToDoItem.consequences = Int16(consequencesSgmntCntrl.selectedSegmentIndex)
                 newToDoItem.color = Int16(valueSgmntCntrl.selectedSegmentIndex) + Int16(timeSgmntCntrl.selectedSegmentIndex) + Int16(consequencesSgmntCntrl.selectedSegmentIndex)
+                newToDoItem.createdAt = "\(Date())"
                 
                 //set relationship
                 newToDoItem.project = project
