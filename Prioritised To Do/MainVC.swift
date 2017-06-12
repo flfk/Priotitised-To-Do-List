@@ -37,8 +37,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         //predicate fetch request for project
         fetchRequest.predicate = NSPredicate(format: "project.name == %@", self.project!.name!)
         
-        
-        
         //create fetched results controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: adManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
