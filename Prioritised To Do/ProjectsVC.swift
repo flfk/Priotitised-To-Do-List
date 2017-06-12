@@ -19,6 +19,8 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     private let segueProjectToDoItems = "ProjectToDoItemsSegue"
     
+    private var deleteConfirmation: Bool?
+    
     //MARK: - Core Data Stack Properties
     
     
@@ -152,6 +154,20 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.present(alert, animated: true, completion: nil)
     }
 
+    func deleteProjectAlert (title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { action in alert.dismiss(animated: true, completion: nil)
+            self.deleteConfirmation = true
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in alert.dismiss(animated: true, completion: nil)
+            self.deleteConfirmation = false
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 
     //MARK: - Action
     
@@ -198,14 +214,24 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            //Fetch To Do Item
-            let project = fetchedResultsController.object(at: indexPath)
             
-            //delete To Do Item
-            project.managedObjectContext?.delete(project)
+            //send alert for confirmation
+            deleteProjectAlert(title: "", message: "Are you sure you want to delete this project?")
+            
+            if deleteConfirmation == true {
+            
+                //Fetch To Do Item
+                let project = fetchedResultsController.object(at: indexPath)
+                
+                //delete To Do Item
+                project.managedObjectContext?.delete(project)
+        
+            } else {
+                
+            }
         }
     }
-    
+        
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
