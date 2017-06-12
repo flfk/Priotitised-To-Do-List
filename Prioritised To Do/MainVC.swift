@@ -188,12 +188,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             //Fetch To Do Item
-            //let toDoItem = fetchedResultsController.object(at: indexPath)
-            //let toDoItem = project.
-            //let toDoItemKey = tableView.indexPathForSelectedRow
-            
+            let toDoItem = fetchedResultsController.object(at: indexPath)
+
             //delete To Do Item
-            //toDoItem.managedObjectContext?.delete(toDoItem)
+            toDoItem.managedObjectContext?.delete(toDoItem)
         }
     }
     

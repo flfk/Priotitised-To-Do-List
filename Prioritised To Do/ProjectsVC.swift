@@ -180,6 +180,16 @@ class ProjectsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            //Fetch To Do Item
+            let project = fetchedResultsController.object(at: indexPath)
+            
+            //delete To Do Item
+            project.managedObjectContext?.delete(project)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
